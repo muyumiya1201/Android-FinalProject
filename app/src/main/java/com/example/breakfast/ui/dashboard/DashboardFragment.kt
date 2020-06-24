@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.breakfast.R
 import com.example.breakfast.ui.home.HomeFragment
@@ -25,6 +27,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var myProductName: LinearLayout
+    private var FIREBASE_REF: String = "FIREBASE_REF"
 
 
     override fun onCreateView(
@@ -38,12 +41,14 @@ class DashboardFragment : Fragment() {
                 ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        /*
+
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = "hello"
-        })*/
+            textView.textSize = 20F
+            textView.text = it
+        })
 
         myProductName = root.findViewById(R.id.shopping_cart)
+
 
         /* get order here*/
         //val order = this.arguments?.getString(HomeFragment.ORDER) //real data
@@ -70,6 +75,14 @@ class DashboardFragment : Fragment() {
 
         myProductName.addView(send)
 
+
+        send.setOnClickListener{
+            if (order != null) {
+                sendOrder(order)
+            }
+        }
+
+
         return root
     }
 
@@ -89,8 +102,11 @@ class DashboardFragment : Fragment() {
                 productContext.text =
                     "Name:       " + product.asJsonObject.get("name").asString + "\n" +
                             "Price:        " + product.asJsonObject.get("price").asString+ "\n" +
-                            "Quantity:   " + product.asJsonObject.get("quantity").asString + "\n" +
-                            "Picture:  " + product.asJsonObject.get("picture").asString
+                            "Quantity:   " + product.asJsonObject.get("quantity").asString
+
+
+                val productPicture = ImageView(context)
+                productPicture.setImageResource(product.asJsonObject.get("picture").asInt)
 
                 // create card
                 val card = context?.let { CardView(it) }
@@ -100,7 +116,9 @@ class DashboardFragment : Fragment() {
                 card?.minimumHeight = 50
                 card?.minimumWidth = 50
                 card?.radius = 20f
+                card?.addView(productPicture)
                 card?.addView(productContext)
+
 
                 myProductName.addView(card)
 
@@ -112,14 +130,21 @@ class DashboardFragment : Fragment() {
         return total
     }
 
+    /* send order to firebase */
+    private fun sendOrder(order: String) {
+
+        //val ref = Firebase(FIREBASE_REF)
+        //ref.setValue(order)
+    }
+
     private fun menu(): String? {
 
         val products = ArrayList<HomeFragment.Product>()
 
-        products.add(HomeFragment.Product("toast", 30, 1, "week"))
-        products.add(HomeFragment.Product("ACB", 20, 2, "webdanbdfnek"))
-        products.add(HomeFragment.Product("vdf", 70, 3, "dngdn"))
-        products.add(HomeFragment.Product("hbbh", 60, 4, "weagndgnagfek"))
+        products.add(HomeFragment.Product("toast", 30, 1, R.drawable.ic_home_black_24dp))
+        products.add(HomeFragment.Product("ACB", 20, 2, R.drawable.ic_home_black_24dp))
+        products.add(HomeFragment.Product("vdf", 70, 3, R.drawable.ic_home_black_24dp))
+        products.add(HomeFragment.Product("hbbh", 60, 4, R.drawable.ic_home_black_24dp))
 
         val gson = GsonBuilder().setPrettyPrinting().create()
 

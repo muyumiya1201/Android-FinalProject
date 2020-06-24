@@ -18,7 +18,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     // product bean
-    data class Product(var name: String, var price: Int, var quantity: Int, var picture: String)
+    data class Product(var name: String, var price: Int, var quantity: Int, var picture: Int)
 
     companion object {
         const val ORDER: String = "ORDER"
@@ -52,10 +52,10 @@ class HomeFragment : Fragment() {
 
         val products = ArrayList<Product>()
 
-        products.add(Product("toast", 30, 1, "week"))
-        products.add(Product("ACB", 20, 2, "webdanbdfnek"))
-        products.add(Product("vdf", 70, 3, "dngdn"))
-        products.add(Product("hbbh", 60, 4, "weagndgnagfek"))
+        products.add(Product("toast", 30, 1, R.drawable.ic_home_black_24dp))
+        products.add(Product("ACB", 20, 2, R.drawable.ic_home_black_24dp))
+        products.add(Product("vdf", 70, 3, R.drawable.ic_home_black_24dp))
+        products.add(Product("hbbh", 60, 4, R.drawable.ic_home_black_24dp))
 
         val gson = GsonBuilder().setPrettyPrinting().create()
 
