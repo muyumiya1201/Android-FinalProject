@@ -3,4 +3,9 @@
     <string name="title_home">Menu</string>
     <string name="title_dashboard">Cart</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="burger_btn">漢堡</string>
+    <string name="omelette_btn">蛋餅</string>
+    <string name="toast_btn">吐司</string>
+    <string name="drink_btn">飲料</string>
 </resources>
